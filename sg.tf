@@ -2,6 +2,11 @@ data "http" "myip" {
   url = "https://ifconfig.me"
 }
 
+variable "uk_se_name" {
+  description = "UK SE Name"
+  type        = string
+  default     = "Richard H."
+}
 resource "aws_security_group" "mgmt" {
   name        = "mgmt"
   description = "Allow SSH and TLS inbound traffic"
