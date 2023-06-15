@@ -15,4 +15,3 @@ resource "aws_network_interface" "vs" {
   private_ips     = ["10.0.2.101"]
   security_groups = [aws_security_group.public.id]
 }
-}
