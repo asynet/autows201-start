@@ -1,17 +1,18 @@
 resource "aws_network_interface" "mgmt" {
-  subnet_id       = module.vpc.public_subnets[0].id
+  subnet_id       = module.vpc.public_subnets[0]
   private_ips     = ["10.0.1.10"]
-  security_groups = [aws_security_group.web.id]
+  security_groups = [aws_security_group.mgmt.id]
 }
 
 resource "aws_network_interface" "self" {
-  subnet_id       = module.vpc.public_subnets[1].id
+  subnet_id       = module.vpc.public_subnets[1]
   private_ips     = ["10.0.2.10"]
-  security_groups = [aws_security_group.web.id]
+  security_groups = [aws_security_group.public.id]
 }
 
 resource "aws_network_interface" "vs" {
-  subnet_id       = module.vpc.public_subnets[1].id
+  subnet_id       = module.vpc.public_subnets[1]
   private_ips     = ["10.0.2.101"]
-  security_groups = [aws_security_group.web.id]
+  security_groups = [aws_security_group.public.id]
+}
 }
