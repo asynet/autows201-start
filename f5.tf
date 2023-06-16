@@ -10,6 +10,12 @@ resource "aws_network_interface" "public" {
   security_groups = [aws_security_group.public.id]
 }
 
+resource "aws_network_interface" "private" {
+  subnet_id       = module.vpc.private_subnets[0]
+  private_ips     = ["10.0.3.10"]
+  security_groups = [aws_security_group.public.id]
+}
+
 resource "aws_eip" "mgmt" {
   domain                    = "vpc"
   network_interface         = aws_network_interface.mgmt.id
@@ -37,11 +43,33 @@ data "aws_ami" "f5_ami" {
     values = ["*BIGIP-16.1.*PAYG-Best*25Mbps*"]
   }
 }
+
+resource "random_string" "password" {
+  length  = 10
+  special = false
+}
 resource "aws_instance" "f5_instance" {
   ami           = data.aws_ami.f5_ami.id
-  instance_type = "t2.medium"
+  instance_type = "t3.medium"
+
+  network_interface {
+    network_interface_id = aws_network_interface.mgmt.id
+    device_index         = 0
+  }
+
+  network_interface {
+    network_interface_id = aws_network_interface.public.id
+    device_index         = 1
+  }
+
+  network_interface {
+    network_interface_id = aws_network_interface.private.id
+    device_index         = 2
+  }
 
   tags = {
     Name = "F5 201 Terraform Workshop"
   }
 }
+
+
