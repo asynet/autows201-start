@@ -26,3 +26,22 @@ resource "aws_eip" "vs" {
   network_interface         = aws_network_interface.public.id
   associate_with_private_ip = "10.0.2.101"
 }
+
+data "aws_ami" "f5_ami" {
+  most_recent = true
+  #name_regex       = "*BIGIP-16.1.*PAYG-Best*25Mbps*"
+  owners = ["679593333241"]
+
+  filter {
+    name   = "name"
+    values = ["*BIGIP-16.1.*PAYG-Best*25Mbps*"]
+  }
+}
+resource "aws_instance" "f5_instance" {
+  ami           = data.aws_ami.f5_ami.id
+  instance_type = "t2.medium"
+
+  tags = {
+    Name = "F5 201 Terraform Workshop"
+  }
+}
