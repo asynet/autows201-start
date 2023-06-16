@@ -51,6 +51,7 @@ resource "random_string" "password" {
 resource "aws_instance" "f5_instance" {
   ami           = data.aws_ami.f5_ami.id
   instance_type = "t3.medium"
+  key_name      = aws_key_pair.demo.key_name
 
   network_interface {
     network_interface_id = aws_network_interface.mgmt.id
