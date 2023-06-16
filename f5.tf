@@ -10,6 +10,11 @@ resource "aws_network_interface" "public" {
   security_groups = [aws_security_group.public.id]
 }
 
+resource "aws_eip" "mgmt" {
+  domain                    = "vpc"
+  network_interface         = aws_network_interface.mgmt.id
+  associate_with_private_ip = "10.0.1.10"
+}
 resource "aws_eip" "self" {
   domain                    = "vpc"
   network_interface         = aws_network_interface.public.id

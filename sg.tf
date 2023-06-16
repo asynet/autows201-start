@@ -5,7 +5,7 @@ data "http" "myip" {
 variable "uk_se_name" {
   description = "UK SE Name"
   type        = string
-  default     = "Richard H."
+  default     = "richard@asynet.es"
 }
 resource "aws_security_group" "mgmt" {
   name        = "mgmt"
